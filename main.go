@@ -25,7 +25,7 @@ type User struct {
 	Username string `json:"username"`
 }
 
-func removeTodo(w http.ResponseWriter, r *http.Request) {
+func removeTodo(w http.ResponseWriter, r *http.Request) { // "api/todos/remove removes the todo with the specific ID from DB"
 	w.Header().Set("Content-Type", "application/json")
 
 	var re Todo
@@ -72,7 +72,7 @@ func removeTodo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func addTodo(w http.ResponseWriter, r *http.Request) {
+func addTodo(w http.ResponseWriter, r *http.Request) { // "/api/todos/add adds a new todo in the database and returns it as a JSON response"
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -145,7 +145,7 @@ func addTodo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func finishTodo(w http.ResponseWriter, r *http.Request) {
+func finishTodo(w http.ResponseWriter, r *http.Request) { // "/api/todos/done" ,  finds the Todo with the specific ID in DB and updates the row setting completed to true
 	w.Header().Set("Content-Type", "application/json")
 
 	var re Todo
@@ -193,7 +193,7 @@ func finishTodo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getTodo(w http.ResponseWriter, r *http.Request) {
+func getTodo(w http.ResponseWriter, r *http.Request) { // "/api/todos", returns a JSON response with all todos with a specific ID
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
@@ -211,12 +211,12 @@ func getTodo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
+func NotFoundHandler(w http.ResponseWriter, r *http.Request) { //custom 404
 	w.WriteHeader(http.StatusNotFound)
 	fmt.Fprint(w, "Error 404")
 }
 
-func getTodoList(id int) []Todo {
+func getTodoList(id int) []Todo { // gets todos from DB where id_todo = id and returns a list of Todos
 
 	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
 
@@ -255,7 +255,7 @@ func getTodoList(id int) []Todo {
 	return toDoList
 }
 
-func getUsers(w http.ResponseWriter, r *http.Request) {
+func getUsers(w http.ResponseWriter, r *http.Request) { //gets users from DB and returns a JSON response with all users found
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 

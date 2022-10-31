@@ -13,6 +13,9 @@ import (
 
 var err error
 
+const connectionString string = "root:testing123@tcp(localhost:3306)/go_todo"
+const fileServerPath string = "C:/Programming/todoapp/frontend/build"
+
 type Todo struct {
 	Id        int    `json:"id"`
 	UserId    int    `json:"userId"`
@@ -36,7 +39,7 @@ func removeTodo(w http.ResponseWriter, r *http.Request) { // "api/todos/remove r
 		return
 	}
 
-	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
+	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		panic(err.Error())
@@ -87,7 +90,7 @@ func addTodo(w http.ResponseWriter, r *http.Request) { // "/api/todos/add adds a
 		return
 	}
 
-	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
+	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -156,7 +159,7 @@ func finishTodo(w http.ResponseWriter, r *http.Request) { // "/api/todos/done" ,
 		return
 	}
 
-	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
+	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -218,7 +221,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) { //custom 404
 
 func getTodoList(id int) []Todo { // gets todos from DB where id_todo = id and returns a list of Todos
 
-	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
+	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		panic(err.Error())
@@ -259,7 +262,7 @@ func getUsers(w http.ResponseWriter, r *http.Request) { //gets users from DB and
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
-	db, err := sql.Open("mysql", "root:testing123@tcp(localhost:3306)/go_todo")
+	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		panic(err.Error())
@@ -302,7 +305,7 @@ func main() {
 	// toDoList = append(toDoList, Todo{UserId: 1, Id: 1, Title: "delectus aut autem", Completed: false})
 	// toDoList = append(toDoList, Todo{UserId: 2, Id: 2, Title: "quis ut nam facilis et officia qui", Completed: false})
 
-	fileServer := http.FileServer(http.Dir("C:/Programming/todoapp/frontend/build"))
+	fileServer := http.FileServer(http.Dir(fileServerPath))
 	http.Handle("/", fileServer)
 
 	http.HandleFunc("/api/todos", getTodo)
